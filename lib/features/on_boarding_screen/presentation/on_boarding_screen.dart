@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nexus_one/router/app_pages.dart';
 
 import '../../../core/constants/app_colors.dart';
 
@@ -40,7 +42,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       );
     } else {
       debugPrint("✅ Onboarding Completed — Navigate to Home/Login");
-      // TODO: Navigate to next screen
+      context.go(AppPages.REGISTRATION_SCREEN);
     }
   }
 
@@ -75,6 +77,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 onPressed: () {
                   debugPrint("⏩ Skipped");
                   // TODO: Skip to main screen
+                  context.go(AppPages.REGISTRATION_SCREEN);
                 },
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
