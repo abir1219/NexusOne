@@ -1,4 +1,16 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:nexus_one/core/constants/app_colors.dart';
+import 'package:nexus_one/router/app_pages.dart';
+
+import '../../../core/widgets/custom_button.dart';
+import '../../../core/widgets/custom_divider.dart';
+import '../../../core/widgets/custom_google_button.dart';
+import '../../../core/widgets/custom_header.dart';
+import '../../../core/widgets/custom_textfield.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -13,10 +25,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _mobileController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   String? _selectedTradeType;
   String? _selectedAccountType;
+  bool isChecked = false;
 
   final List<String> _tradeTypes = [
     'Electrical',
@@ -24,34 +38,43 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     'Carpentry',
     'Painting',
     'Landscaping',
-    'Other'
+    'Other',
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                _buildHeader(),
-                const SizedBox(height: 32),
-                _buildGoogleSignUpButton(),
-                const SizedBox(height: 24),
-                _buildDivider(),
-                const SizedBox(height: 24),
-                _buildFormFields(),
-                const SizedBox(height: 32),
-                _buildSignUpButton(),
-                const SizedBox(height: 24),
-                _buildLoginLink(),
-              ],
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: AppColors.BACKGROUND_BLACK,
+        statusBarIconBrightness: Brightness.light, // Android → white icons
+        statusBarBrightness: Brightness.dark, // iOS → white icons
+      ),
+      child: Scaffold(
+        backgroundColor: AppColors.BACKGROUND_BLACK,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 24.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                spacing: 8,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // const SizedBox(height: 20),
+                  _buildHeader(),
+                  // const SizedBox(height: 32),
+                  _buildGoogleSignUpButton(),
+                  // const SizedBox(height: 24),
+                  _buildDivider(),
+                  // const SizedBox(height: 24),
+                  _buildFormFields(),
+                  const SizedBox(height: 12),
+                  _buildSignUpButton(),
+                  const SizedBox(height: 12),
+                  _buildLoginLink(),
+                  const SizedBox(height: 12),
+                ],
+              ),
             ),
           ),
         ),
@@ -60,81 +83,33 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Create Your Account',
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: Colors.black87,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'Join us today and start exploring all the amazing features we offer.',
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: Colors.grey[600],
-          ),
-        ),
-      ],
+    return CustomHeader.buildHeader(
+      context,
+      'Create Your Account',
+      'Join us today and start exploring all the amazing features we offer.',
     );
   }
 
   Widget _buildGoogleSignUpButton() {
-    return SizedBox(
-      width: double.infinity,
-      child: OutlinedButton.icon(
-        onPressed: () {
-          // Handle Google sign up
-        },
-        icon: Image.asset(
-          'assets/google_icon.png', // Make sure to add Google icon to your assets
-          width: 24,
-          height: 24,
-        ),
-        label: const Text(
-          'Sign Up with Google',
-          style: TextStyle(fontSize: 16),
-        ),
-        style: OutlinedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          side: BorderSide(color: Colors.grey[300]!),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-      ),
+    return CustomGoogleButton.buildCustomGoogleButton(
+      context,
+      'Sign Up with Google',
+      () {},
     );
   }
 
   Widget _buildDivider() {
-    return Row(
-      children: [
-        Expanded(
-          child: Divider(color: Colors.grey[300]),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            'or',
-            style: TextStyle(color: Colors.grey[500]),
-          ),
-        ),
-        Expanded(
-          child: Divider(color: Colors.grey[300]),
-        ),
-      ],
-    );
+    return CustomDivider.buildCustomDivider();
   }
 
   Widget _buildFormFields() {
     return Column(
+      spacing: 16,
       children: [
-        _buildTextField(
+        CustomTextField.buildTextField(
           controller: _fullNameController,
           hintText: 'enter your full name...',
-          label: 'Full Name',
+          label: 'Full Name*',
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'Please enter your full name';
@@ -142,11 +117,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             return null;
           },
         ),
-        const SizedBox(height: 16),
+        // const SizedBox(height: 16),
         _buildDropdownField(
           value: _selectedTradeType,
           hintText: 'select...',
-          label: 'Trade Type',
+          label: 'Trade Type*',
           items: _tradeTypes,
           onChanged: (value) {
             setState(() {
@@ -160,11 +135,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             return null;
           },
         ),
-        const SizedBox(height: 16),
-        _buildTextField(
+        // const SizedBox(height: 16),
+        CustomTextField.buildTextField(
           controller: _emailController,
           hintText: 'enter your email address...',
-          label: 'Email ID',
+          label: 'Email ID*',
           keyboardType: TextInputType.emailAddress,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -176,11 +151,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             return null;
           },
         ),
-        const SizedBox(height: 16),
-        _buildTextField(
+        // const SizedBox(height: 16),
+        CustomTextField.buildTextField(
           controller: _mobileController,
+          maxLength: 10,
           hintText: 'enter your phone number...',
-          label: 'Mobile Number',
+          label: 'Mobile Number*',
           keyboardType: TextInputType.phone,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -189,11 +165,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             return null;
           },
         ),
-        const SizedBox(height: 16),
-        _buildTextField(
+        // const SizedBox(height: 16),
+        CustomTextField.buildTextField(
           controller: _passwordController,
           hintText: 'create a strong password...',
-          label: 'Password',
+          label: 'Password*',
+          isPassword: true,
           obscureText: true,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -205,11 +182,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             return null;
           },
         ),
-        const SizedBox(height: 16),
-        _buildTextField(
+        // const SizedBox(height: 16),
+        CustomTextField.buildTextField(
           controller: _confirmPasswordController,
           hintText: 're-enter your password...',
-          label: 'Confirm Password',
+          label: 'Confirm Password*',
+          isPassword: true,
           obscureText: true,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -227,15 +205,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 
-  Widget _buildTextField({
-    required TextEditingController controller,
+  Widget _buildDropdownField({
+    required String? value,
     required String hintText,
     required String label,
-    TextInputType? keyboardType,
-    bool obscureText = false,
+    required List<String> items,
+    required Function(String?) onChanged,
     String? Function(String?)? validator,
   }) {
-    return Column(
+    return Container();
+
+    /*Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
@@ -243,36 +223,78 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 14,
-            color: Colors.black87,
+            color: Colors.white,
           ),
         ),
         const SizedBox(height: 8),
-        TextFormField(
-          controller: controller,
-          keyboardType: keyboardType,
-          obscureText: obscureText,
-          decoration: InputDecoration(
-            hintText: hintText,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(color: Colors.grey[300]!),
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.grey.shade400,
             ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: Colors.blue),
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 14,
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButtonFormField<String>(
+              initialValue: value,
+              isExpanded: true,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 14,
+                ),
+                hintText: hintText,
+                hintStyle: TextStyle(
+                  color: Colors.grey.shade600,
+                  fontSize: 14,
+                ),
+              ),
+              items: [
+                DropdownMenuItem<String>(
+                  value: null,
+                  child: Text(
+                    hintText,
+                    style: TextStyle(
+                      color: Colors.grey.shade600,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+                ...items.map((String item) {
+                  return DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ],
+              onChanged: onChanged,
+              validator: validator,
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.black87,
+              ),
+              icon: Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Icon(
+                  Icons.arrow_drop_down,
+                  color: Colors.grey.shade600,
+                ),
+              ),
             ),
           ),
-          validator: validator,
         ),
       ],
-    );
+    );*/
   }
 
-  Widget _buildDropdownField({
+  /*Widget _buildDropdownField({
     required String? value,
     required String hintText,
     required String label,
@@ -293,7 +315,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ),
         const SizedBox(height: 8),
         DropdownButtonFormField<String>(
-          value: value,
+          initialValue: value,
           decoration: InputDecoration(
             hintText: hintText,
             border: OutlineInputBorder(
@@ -306,17 +328,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
           ),
           items: items.map((String item) {
-            return DropdownMenuItem<String>(
-              value: item,
-              child: Text(item),
-            );
+            return DropdownMenuItem<String>(value: item, child: Text(item));
           }).toList(),
           onChanged: onChanged,
           validator: validator,
         ),
       ],
     );
-  }
+  }*/
 
   Widget _buildAccountTypeSection() {
     return Column(
@@ -324,10 +343,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       children: [
         Text(
           'Account Type',
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
+          style: GoogleFonts.urbanist(
+            fontWeight: FontWeight.w500,
             fontSize: 14,
-            color: Colors.black87,
+            color: AppColors.TEXT_COLOR_WHITE,
           ),
         ),
         const SizedBox(height: 12),
@@ -335,7 +354,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           children: [
             Expanded(
               child: _buildAccountTypeCard(
-                title: 'Solo Contractor',
+                title: 'Solo Contractor?',
                 isSelected: _selectedAccountType == 'Solo Contractor',
                 onTap: () {
                   setState(() {
@@ -344,7 +363,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 },
               ),
             ),
-            const SizedBox(width: 12),
+            //const SizedBox(width: 12),
             Expanded(
               child: _buildAccountTypeCard(
                 title: 'Multi Crew Contractor',
@@ -358,6 +377,43 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
           ],
         ),
+        const SizedBox(height: 16),
+        InkWell(
+          splashColor: Colors.transparent,
+          // 🚫 disables ripple
+          highlightColor: Colors.transparent,
+          // 🚫 disables tap highlight
+          hoverColor: Colors.transparent,
+          onTap: () {
+            setState(() => isChecked = !isChecked);
+          },
+          child: Row(
+            children: [
+              Checkbox(
+                value: isChecked,
+                onChanged: (value) => setState(() => isChecked = value!),
+                fillColor: WidgetStateProperty.all(AppColors.UNSELECTION_COLOR),
+                activeColor: AppColors.TEXT_COLOR_WHITE,
+                visualDensity: const VisualDensity(
+                  horizontal: -4.0,
+                  vertical: -4.0,
+                ),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+              Expanded(
+                child: Text(
+                  'By signing up, you agree to our Terms & Conditions and Privacy Policy.',
+                  style: GoogleFonts.urbanist(
+                    fontSize: 14,
+                    color: AppColors.TEXT_COLOR_OFF_WHITE,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -369,102 +425,67 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: isSelected ? Colors.blue : Colors.grey[300]!,
-            width: isSelected ? 2 : 1,
+      child: Row(
+        children: [
+          Icon(
+            isSelected ? Icons.check_circle_sharp : Icons.circle,
+            color: isSelected
+                ? AppColors.SELECTION_COLOR
+                : AppColors.UNSELECTION_COLOR,
+            size: 20,
           ),
-          borderRadius: BorderRadius.circular(8),
-          color: isSelected ? Colors.blue.withAlpha(5) : Colors.white,
-        ),
-        child: Row(
-          children: [
-            Icon(
-              Icons.warning_amber_rounded,
-              color: isSelected ? Colors.blue : Colors.grey,
-              size: 20,
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                title,
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: isSelected ? Colors.blue : Colors.grey[700],
-                ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              title,
+              style: GoogleFonts.urbanist(
+                fontWeight: FontWeight.w400,
+                color: AppColors.TEXT_COLOR_OFF_WHITE,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildSignUpButton() {
-    return Column(
-      children: [
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                // Handle sign up logic
-                _handleSignUp();
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            child: const Text(
-              'Sign Up',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'By signing up, you agree to our Terms & Conditions and Privacy Policy.',
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey[600],
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: CustomButton.buildCustomButton(() => _handleSignUp(), "Sign Up"),
     );
   }
 
   Widget _buildLoginLink() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          'Already have an account? ',
-          style: TextStyle(color: Colors.grey[600]),
+    return RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(
+        text: 'Already have an account? ',
+        style: GoogleFonts.urbanist(
+          color: AppColors.TEXT_COLOR_OFF_WHITE,
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
         ),
-        GestureDetector(
-          onTap: () {
-            // Navigate to login screen
-          },
-          child: const Text(
-            'Login',
-            style: TextStyle(
-              color: Colors.blue,
-              fontWeight: FontWeight.bold,
+        children: [
+          TextSpan(
+            text: 'Login',
+            style: GoogleFonts.urbanist(
+              color: AppColors.TEXT_COLOR_WHITE,
+              fontWeight: FontWeight.w700,
+              fontSize: 16,
+              decoration: TextDecoration.underline,
+              decorationStyle: TextDecorationStyle.solid,
+              decorationThickness: 1.0,
             ),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                context.go(AppPages.LOGIN_SCREEN);
+                // 👉 Navigate to login screen here
+                debugPrint('Login tapped');
+              },
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -480,14 +501,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     };
 
     print('User data: $userData');
-
+    context.go(AppPages.REGISTRATION_SUCCESS_SCREEN);
     // Show success message or navigate to next screen
-    ScaffoldMessenger.of(context).showSnackBar(
+    /*ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Account created successfully!'),
         backgroundColor: Colors.green,
       ),
-    );
+    );*/
   }
 
   @override

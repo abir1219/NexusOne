@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nexus_one/core/widgets/custom_button.dart';
 import 'package:nexus_one/router/app_pages.dart';
 
 import '../../../core/constants/app_colors.dart';
@@ -48,118 +50,109 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.BACKGROUND_BLACK,
-      body: SafeArea(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            // PageView
-            PageView.builder(
-              controller: _pageController,
-              itemCount: image.length,
-              onPageChanged: (index) {
-                setState(() => _currentPage = index);
-              },
-              itemBuilder: (context, index) {
-                return onBoardingSlide(
-                  context: context,
-                  imgUrl: image[index],
-                  title: title[index],
-                  subtitle: subtitle[index],
-                );
-              },
-            ),
-            Positioned(
-              top: 20,
-              right: 20,
-              child: TextButton(
-                onPressed: () {
-                  debugPrint("⏩ Skipped");
-                  // TODO: Skip to main screen
-                  context.go(AppPages.REGISTRATION_SCREEN);
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: AppColors.BACKGROUND_BLACK,
+        statusBarIconBrightness: Brightness.light, // Android → white icons
+        statusBarBrightness: Brightness.dark,      // iOS → white icons
+      ),
+      child: Scaffold(
+        backgroundColor: AppColors.BACKGROUND_BLACK,
+        body: SafeArea(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              // PageView
+              PageView.builder(
+                controller: _pageController,
+                itemCount: image.length,
+                onPageChanged: (index) {
+                  setState(() => _currentPage = index);
                 },
-                child: const Row(
+                itemBuilder: (context, index) {
+                  return onBoardingSlide(
+                    context: context,
+                    imgUrl: image[index],
+                    title: title[index],
+                    subtitle: subtitle[index],
+                  );
+                },
+              ),
+              Positioned(
+                top: 20,
+                right: 20,
+                child: TextButton(
+                  onPressed: () {
+                    debugPrint("⏩ Skipped");
+                    // TODO: Skip to main screen
+                    context.go(AppPages.REGISTRATION_SCREEN);
+                  },
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Skip",
+                        style: TextStyle(color: Colors.white70, fontSize: 16),
+                      ),
+                      SizedBox(width: 4),
+                      Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 14,
+                        color: Colors.white70,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: MediaQuery.sizeOf(context).height / 2.8, //100
+                left: 0,
+                right: 0,
+                child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      "Skip",
-                      style: TextStyle(color: Colors.white70, fontSize: 16),
-                    ),
-                    SizedBox(width: 4),
-                    Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: 14,
-                      color: Colors.white70,
+                    // Dots Indicator
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                        image.length,
+                        (index) => AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          margin: const EdgeInsets.symmetric(horizontal: 4),
+                          height: 6,
+                          width: _currentPage == index ? 24 : 8,
+                          decoration: BoxDecoration(
+                            color: _currentPage == index
+                                ? AppColors.DOT_ACTIVE
+                                : AppColors.DOT_INACTIVE,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
-            ),
-            Positioned(
-              bottom: MediaQuery.sizeOf(context).height / 2.8, //100
-              left: 0,
-              right: 0,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Dots Indicator
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                      image.length,
-                      (index) => AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        margin: const EdgeInsets.symmetric(horizontal: 4),
-                        height: 6,
-                        width: _currentPage == index ? 24 : 8,
-                        decoration: BoxDecoration(
-                          color: _currentPage == index
-                              ? AppColors.DOT_ACTIVE
-                              : AppColors.DOT_INACTIVE,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
+              Positioned(
+                bottom: MediaQuery.sizeOf(context).height / 20,
+                left: 0,
+                right: 0,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Next Button
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40),
+                      child: CustomButton.buildCustomButton(
+                        _nextPage,
+                        _currentPage == image.length - 1 ? "Get Started" : "Next",
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Positioned(
-              bottom: MediaQuery.sizeOf(context).height / 20,
-              left: 0,
-              right: 0,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Next Button
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40),
-                    child: ElevatedButton(
-                      onPressed: _nextPage,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white.withAlpha(25),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        minimumSize: const Size.fromHeight(56),
-                      ),
-                      child: Text(
-                        _currentPage == image.length - 1
-                            ? "Get Started"
-                            : "Next",
-                        style: GoogleFonts.urbanist(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -187,9 +180,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             title,
             textAlign: TextAlign.center,
             style: GoogleFonts.urbanist(
-              fontSize: 30,
+              fontSize: 28,
               fontWeight: FontWeight.w600,
-              color: Colors.white,
+              color: AppColors.TEXT_COLOR_WHITE,
               // height: 1.3,
             ),
           ),
@@ -203,7 +196,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             style: GoogleFonts.urbanist(
               fontSize: 16,
               fontWeight: FontWeight.w500,
-              color: Colors.white70,
+              color: AppColors.TEXT_COLOR_OFF_WHITE,
               // height: 1.4,
             ),
           ),

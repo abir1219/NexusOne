@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
@@ -43,56 +44,65 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
 
-    return Scaffold(
-      // backgroundColor: AppColors.BACKGROUND_BLACK,
-      body: SafeArea(
-        child: Container(
-          width: MediaQuery.sizeOf(context).width,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                AppColors.BACKGROUND_LIGHT_BLACK,
-                AppColors.BACKGROUND_BLACK,
-              ],
-              begin: Alignment.centerLeft,
-              end: Alignment.bottomRight,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: AppColors.BACKGROUND_BLACK,
+        statusBarIconBrightness: Brightness.light, // Android → white icons
+        statusBarBrightness: Brightness.dark,      // iOS → white icons
+      ),
+      child: Scaffold(
+        backgroundColor: AppColors.BACKGROUND_BLACK,
+        body: SafeArea(
+          child: Container(
+            width: MediaQuery.sizeOf(context).width,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  AppColors.BACKGROUND_LIGHT_BLACK,
+                  AppColors.BACKGROUND_BLACK,
+                ],
+                begin: Alignment.centerLeft,
+                end: Alignment.bottomRight,
+              ),
             ),
-          ),
-          child: Column(
-            children: [
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  spacing: size.height * 0.01,
-                  children: [
-                    SizedBox(
-                      width: size.width * 0.4,
-                      child: SvgPicture.asset(
-                        "assets/images/splash_screen_logo.svg",
-                      ),
-                    ),
-                    SizedBox(
-                      child: Text(
-                        "Hire trusted local pros for any home project.",
-                        style: GoogleFonts.urbanist(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.TEXT_COLOR_WHITE,
+            child: Column(
+              children: [
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    // spacing: size.height * 0.01,
+                    children: [
+                      SizedBox(
+                        width: size.width * 0.4,
+                        height: size.height * 0.18,
+                        child: SvgPicture.asset(
+                          "assets/images/splash_screen_logo.svg",
+                          fit: BoxFit.contain,
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        child: Text(
+                          "Hire trusted local pros for any home project.",
+                          style: GoogleFonts.urbanist(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.TEXT_COLOR_WHITE,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              // Spacer(),
-              SpinKitCircle(
-                color: Colors.white,
-                size: 50.0,
-                controller: _controller,
-              ),
-              Gap(20),
-            ],
+                // Spacer(),
+                SpinKitCircle(
+                  color: Colors.white,
+                  size: 50.0,
+                  controller: _controller,
+                ),
+                Gap(20),
+              ],
+            ),
           ),
         ),
       ),
