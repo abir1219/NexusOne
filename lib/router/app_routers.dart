@@ -1,5 +1,9 @@
 import 'package:go_router/go_router.dart';
+import 'package:nexus_one/features/forgot_password_screen/presentation/forgot_password_screen.dart';
 import 'package:nexus_one/features/login_screen/presentation/login_screen.dart';
+import 'package:nexus_one/features/reset_password_screen/presentation/reset_password_screen.dart';
+import 'package:nexus_one/features/reset_password_screen/presentation/reset_password_success_screen.dart';
+import 'package:nexus_one/features/verify_email_screen/presentation/verify_email_screen.dart';
 
 import '../features/on_boarding_screen/presentation/on_boarding_screen.dart';
 import '../features/registration_screen/presentation/registration_screen.dart';
@@ -54,6 +58,38 @@ class AppRouters {
           path: AppPages.LOGIN_SCREEN,
           builder: (context, state) {
             return LoginScreen();
+          },
+          // builder: (BuildContext context, GoRouterState state) =>
+          //     const SplashScreen(),
+        ),
+        GoRoute(
+          path: AppPages.FORGOT_PASSWORD_SCREEN,
+          builder: (context, state) {
+            return ForgotPasswordScreen();
+          },
+          // builder: (BuildContext context, GoRouterState state) =>
+          //     const SplashScreen(),
+        ),
+        GoRoute(
+          path: AppPages.VERIFY_EMAIL_SCREEN,
+          builder: (context, state) {
+            return VerifyEmailScreen();
+          },
+          // builder: (BuildContext context, GoRouterState state) =>
+          //     const SplashScreen(),
+        ),
+        GoRoute(
+          path: AppPages.RESET_PASSWORD_SCREEN,
+          builder: (context, state) {
+            return ResetPasswordScreen();
+          },
+          // builder: (BuildContext context, GoRouterState state) =>
+          //     const SplashScreen(),
+        ),
+        GoRoute(
+          path: AppPages.RESET_PASSWORD_SUCCESS_SCREEN,
+          builder: (context, state) {
+            return ResetPasswordSuccessScreen();
           },
           // builder: (BuildContext context, GoRouterState state) =>
           //     const SplashScreen(),

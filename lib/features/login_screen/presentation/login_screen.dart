@@ -23,6 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  bool isChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,10 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: AppColors.BACKGROUND_BLACK,
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 24.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 24.0,
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -56,13 +60,74 @@ class _LoginScreenState extends State<LoginScreen> {
                       CustomGoogleButton.buildCustomGoogleButton(
                         context,
                         'Login with Google',
-                            () {},
+                        () {},
                       ),
                       CustomDivider.buildCustomDivider(),
                       _buildFormFields(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            // 🚫 disables ripple
+                            highlightColor: Colors.transparent,
+                            // 🚫 disables tap highlight
+                            hoverColor: Colors.transparent,
+                            onTap: () {
+                              setState(() => isChecked = !isChecked);
+                            },
+                            child: Row(
+                              children: [
+                                Checkbox(
+                                  value: isChecked,
+                                  onChanged: (value) =>
+                                      setState(() => isChecked = value!),
+                                  fillColor: WidgetStateProperty.all(
+                                    AppColors.UNSELECTION_COLOR,
+                                  ),
+                                  activeColor: AppColors.TEXT_COLOR_WHITE,
+                                  visualDensity: const VisualDensity(
+                                    horizontal: -4.0,
+                                    vertical: -4.0,
+                                  ),
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                ),
+                                Text(
+                                  'Remember Me',
+                                  style: GoogleFonts.urbanist(
+                                    fontSize: 14,
+                                    color: AppColors.TEXT_COLOR_OFF_WHITE,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            onTap: () => context.go(AppPages.FORGOT_PASSWORD_SCREEN),
+                            child: Text(
+                              "Forgot Password?",
+                              style: GoogleFonts.urbanist(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.TEXT_COLOR_WHITE
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: CustomButton.buildCustomButton(() {}, "Login"),
+                      ),
                     ],
                   ),
                 ),
+                const SizedBox(height: 8),
                 _buildSignUpLink(),
               ],
             ),
@@ -107,11 +172,6 @@ class _LoginScreenState extends State<LoginScreen> {
             return null;
           },
         ),
-        const SizedBox(height: 8),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: CustomButton.buildCustomButton((){}, "Login"),
-        )
       ],
     );
   }

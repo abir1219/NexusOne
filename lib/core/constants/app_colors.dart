@@ -10,6 +10,8 @@ class AppColors{
   static const SELECTION_COLOR =  Color(0xFF0A7AFF);
   static const UNSELECTION_COLOR =  Color(0xFF15191B);
   static const BUTTON_COLOR =  Color(0xFF232627);
+  // static const BUTTON_COLOR_01 =  Color(0xFF3262780);
+  static const BUTTON_COLOR_01 =  Color(0xFF121414);
   static const DOT_ACTIVE = Colors.white;
   static const DOT_INACTIVE = Colors.white38;
 }
