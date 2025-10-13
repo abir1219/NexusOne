@@ -60,26 +60,32 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         backgroundColor: AppColors.BACKGROUND_BLACK,
         body: SafeArea(
           child: Stack(
-            alignment: Alignment.center,
+            // alignment: Alignment.center,
             children: [
               // PageView
-              PageView.builder(
-                controller: _pageController,
-                itemCount: image.length,
-                onPageChanged: (index) {
-                  setState(() => _currentPage = index);
-                },
-                itemBuilder: (context, index) {
-                  return onBoardingSlide(
-                    context: context,
-                    imgUrl: image[index],
-                    title: title[index],
-                    subtitle: subtitle[index],
-                  );
-                },
+              Positioned(
+                top: MediaQuery.sizeOf(context).height * 0.02,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: image.length,
+                  onPageChanged: (index) {
+                    setState(() => _currentPage = index);
+                  },
+                  itemBuilder: (context, index) {
+                    return onBoardingSlide(
+                      context: context,
+                      imgUrl: image[index],
+                      title: title[index],
+                      subtitle: subtitle[index],
+                    );
+                  },
+                ),
               ),
               Positioned(
-                top: 20,
+                top: 0,
                 right: 20,
                 child: TextButton(
                   onPressed: () {

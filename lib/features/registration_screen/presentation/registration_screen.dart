@@ -53,7 +53,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         backgroundColor: AppColors.BACKGROUND_BLACK,
         body: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 24.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 24.0,
+            ),
             child: Form(
               key: _formKey,
               child: Column(
@@ -351,8 +354,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ),
         const SizedBox(height: 12),
         Row(
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(
+            Flexible(
               child: _buildAccountTypeCard(
                 title: 'Solo Contractor?',
                 isSelected: _selectedAccountType == 'Solo Contractor',
@@ -364,7 +368,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
             ),
             //const SizedBox(width: 12),
-            Expanded(
+            Flexible(
               child: _buildAccountTypeCard(
                 title: 'Multi Crew Contractor',
                 isSelected: _selectedAccountType == 'Multi Crew Contractor',
@@ -425,6 +429,52 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }) {
     return GestureDetector(
       onTap: onTap,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          // Dynamically adjust font size based on available width 👇
+          double fontSize = constraints.maxWidth < 180 ? 13 : 16;
+
+          return Row(
+            children: [
+              Icon(
+                isSelected ? Icons.check_circle : Icons.circle_outlined,
+                color: isSelected
+                    ? AppColors.SELECTION_COLOR
+                    : AppColors.UNSELECTION_COLOR,
+                size: 20,
+              ),
+              const SizedBox(width: 8),
+              Flexible(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown, // ✅ Shrinks text if needed
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    title,
+                    style: GoogleFonts.urbanist(
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.TEXT_COLOR_OFF_WHITE,
+                      fontSize: fontSize,
+                    ),
+                    maxLines: 1,
+                    softWrap: false,
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+
+  /*Widget _buildAccountTypeCard({
+    required String title,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
       child: Row(
         children: [
           Icon(
@@ -435,9 +485,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             size: 20,
           ),
           const SizedBox(width: 8),
-          Expanded(
+          Flexible(
             child: Text(
               title,
+              maxLines: 1, // ✅ Only one line
+              overflow: TextOverflow.ellipsis, // ✅ Show "..." if too long
+              softWrap: false, // ✅ Prevent line breaks
               style: GoogleFonts.urbanist(
                 fontWeight: FontWeight.w400,
                 color: AppColors.TEXT_COLOR_OFF_WHITE,
@@ -447,7 +500,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ],
       ),
     );
-  }
+  }*/
 
   Widget _buildSignUpButton() {
     return Padding(

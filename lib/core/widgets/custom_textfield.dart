@@ -28,10 +28,17 @@ class CustomTextField {
         counterText: '',
         suffixIcon: isPassword
             ? IconButton(
+                splashColor: Colors.transparent,
                 onPressed: () {},
                 icon: obscureText
-                    ? const Icon(Icons.visibility_off_outlined,color: AppColors.TEXT_COLOR_OFF_WHITE,)
-                    : Icon(Icons.visibility_outlined,color: AppColors.TEXT_COLOR_OFF_WHITE,),
+                    ? const Icon(
+                        Icons.visibility_off_outlined,
+                        color: AppColors.TEXT_COLOR_OFF_WHITE,
+                      )
+                    : Icon(
+                        Icons.visibility_outlined,
+                        color: AppColors.TEXT_COLOR_OFF_WHITE,
+                      ),
               )
             : null,
         label: Text(label),
