@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +9,7 @@ import 'package:nexus_one/router/app_pages.dart';
 
 import '../../../core/widgets/custom_button.dart';
 import '../../../core/widgets/custom_divider.dart';
+import '../../../core/widgets/custom_dropdown_widget.dart';
 import '../../../core/widgets/custom_google_button.dart';
 import '../../../core/widgets/custom_header.dart';
 import '../../../core/widgets/custom_textfield.dart';
@@ -109,7 +111,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return Column(
       spacing: 16,
       children: [
-        CustomTextField.buildTextField(
+        CustomTextField.buildTextFieldWithLabel(
           controller: _fullNameController,
           hintText: 'enter your full name...',
           label: 'Full Name*',
@@ -119,9 +121,28 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             }
             return null;
           },
+          context: context,
+        ),
+        CustomDropDownWidget.buildCustomDropDownWidget(
+          value: _selectedTradeType,
+          hintText: 'select...',
+          label: 'Trade Type*',
+          items: _tradeTypes,
+          context: context,
+          onChanged: (value) {
+            setState(() {
+              _selectedTradeType = value;
+            });
+          },
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please select a trade type';
+            }
+            return null;
+          },
         ),
         // const SizedBox(height: 16),
-        _buildDropdownField(
+        /*_buildDropdownField(
           value: _selectedTradeType,
           hintText: 'select...',
           label: 'Trade Type*',
@@ -137,10 +158,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             }
             return null;
           },
-        ),
+        ),*/
         // const SizedBox(height: 16),
-        CustomTextField.buildTextField(
+        CustomTextField.buildTextFieldWithLabel(
           controller: _emailController,
+          context: context,
           hintText: 'enter your email address...',
           label: 'Email ID*',
           keyboardType: TextInputType.emailAddress,
@@ -155,8 +177,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           },
         ),
         // const SizedBox(height: 16),
-        CustomTextField.buildTextField(
+        CustomTextField.buildTextFieldWithLabel(
           controller: _mobileController,
+          context: context,
           maxLength: 10,
           hintText: 'enter your phone number...',
           label: 'Mobile Number*',
@@ -169,8 +192,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           },
         ),
         // const SizedBox(height: 16),
-        CustomTextField.buildTextField(
+        CustomTextField.buildTextFieldWithLabel(
           controller: _passwordController,
+          context: context,
           hintText: 'create a strong password...',
           label: 'Password*',
           isPassword: true,
@@ -186,7 +210,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           },
         ),
         // const SizedBox(height: 16),
-        CustomTextField.buildTextField(
+        CustomTextField.buildTextFieldWithLabel(
+          context: context,
           controller: _confirmPasswordController,
           hintText: 're-enter your password...',
           label: 'Confirm Password*',
@@ -202,7 +227,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             return null;
           },
         ),
-        const SizedBox(height: 24),
+        // const SizedBox(height: 24),
         _buildAccountTypeSection(),
       ],
     );
@@ -384,35 +409,65 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         const SizedBox(height: 16),
         InkWell(
           splashColor: Colors.transparent,
-          // 🚫 disables ripple
-          highlightColor: Colors.transparent,
-          // 🚫 disables tap highlight
-          hoverColor: Colors.transparent,
-          onTap: () {
-            setState(() => isChecked = !isChecked);
-          },
+          onTap: () => setState(() => isChecked = !isChecked),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Checkbox(
-                value: isChecked,
-                onChanged: (value) => setState(() => isChecked = value!),
-                fillColor: WidgetStateProperty.all(AppColors.UNSELECTION_COLOR),
-                activeColor: AppColors.TEXT_COLOR_WHITE,
-                visualDensity: const VisualDensity(
-                  horizontal: -4.0,
-                  vertical: -4.0,
-                ),
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-              Expanded(
-                child: Text(
-                  'By signing up, you agree to our Terms & Conditions and Privacy Policy.',
-                  style: GoogleFonts.urbanist(
-                    fontSize: 14,
-                    color: AppColors.TEXT_COLOR_OFF_WHITE,
-                    fontWeight: FontWeight.w400,
+              Transform.scale(
+                scale: 0.9,
+                child: Checkbox(
+                  value: isChecked,
+                  onChanged: (value) => setState(() => isChecked = value!),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
                   ),
-                  textAlign: TextAlign.center,
+                  side: WidgetStateBorderSide.resolveWith(
+                    (states) => BorderSide(
+                      color: AppColors.TEXT_COLOR_OFF_WHITE,
+                      width: 0.8,
+                    ),
+                  ),
+                  checkColor: AppColors.TEXT_COLOR_WHITE,
+                  activeColor: AppColors.BACKGROUND_BLACK,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  visualDensity: const VisualDensity(
+                    horizontal: -4,
+                    vertical: -4,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 4),
+              Expanded(
+                child: RichText(
+                  text: TextSpan(
+                    style: GoogleFonts.urbanist(
+                      fontSize: 14,
+                      color: AppColors.TEXT_COLOR_WHITE,
+                      fontWeight: FontWeight.w400,
+                      height: 1.6,
+                      // height: 1.4,
+                    ),
+                    children: [
+                      const TextSpan(text: 'By signing up, you agree to our '),
+                      TextSpan(
+                        text: 'Terms & Conditions and ',
+                        // style: const TextStyle(
+                        //   color: Colors.white,
+                        //   fontWeight: FontWeight.w600,
+                        //   decoration: TextDecoration.underline,
+                        // ),
+                      ),
+                      // const TextSpan(text: ' and '),
+                      TextSpan(
+                        text: 'Privacy Policy.',
+                        // style: const TextStyle(
+                        //   color: Colors.white,
+                        //   fontWeight: FontWeight.w600,
+                        //   decoration: TextDecoration.underline,
+                        // ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -437,7 +492,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           return Row(
             children: [
               Icon(
-                isSelected ? Icons.check_circle : Icons.circle_outlined,
+                isSelected ? Icons.check_circle : Icons.circle,
                 color: isSelected
                     ? AppColors.SELECTION_COLOR
                     : AppColors.UNSELECTION_COLOR,
@@ -466,7 +521,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       ),
     );
   }
-
 
   /*Widget _buildAccountTypeCard({
     required String title,
@@ -553,7 +607,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       'accountType': _selectedAccountType,
     };
 
-    print('User data: $userData');
+    if (kDebugMode) {
+      print('User data: $userData');
+    }
     context.go(AppPages.REGISTRATION_SUCCESS_SCREEN);
     // Show success message or navigate to next screen
     /*ScaffoldMessenger.of(context).showSnackBar(

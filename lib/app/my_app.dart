@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Crown Pro',
+      title: 'Nexus One',
       routerDelegate: routers.routerDelegate,
       routeInformationProvider: routers.routeInformationProvider,
       routeInformationParser: routers.routeInformationParser,

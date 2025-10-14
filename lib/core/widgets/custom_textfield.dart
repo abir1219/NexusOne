@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nexus_one/main.dart';
 
 import '../constants/app_colors.dart';
 
@@ -65,40 +66,87 @@ class CustomTextField {
       ),
       cursorColor: Colors.white,
     );
-    /*Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-            color: Colors.black87,
+  }
+
+  static Widget buildTextFieldWithLabel({
+    required BuildContext context,
+    required TextEditingController controller,
+    required String hintText,
+    required String label,
+    TextInputType? keyboardType,
+    int maxLength = 100,
+    bool obscureText = false,
+    bool isPassword = false,
+    String? Function(String?)? validator,
+  }) {
+    return SizedBox(
+      height: MediaQuery.sizeOf(context).height * 0.1,
+      width: double.infinity,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          // Background container
+          Positioned(
+            top: 10,
+            left: 0,
+            right: 0,
+            child: Container(
+              // height: 65,
+              padding: EdgeInsets.symmetric(vertical: 8,horizontal: 8),
+              decoration: BoxDecoration(
+                color: AppColors.BACKGROUND_BLACK,
+                //borderSide: BorderSide(color: Colors.white.withAlpha(70), width: 1.5),
+                borderRadius: BorderRadius.circular(40),
+                border: Border.all(
+                  color: AppColors.TEXT_COLOR_WHITE.withAlpha(70),
+                  width: 1.5,
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: TextFormField(
+                  controller: controller,
+                  keyboardType: keyboardType,
+                  obscureText: obscureText,
+                  maxLength: maxLength,
+                  style: GoogleFonts.urbanist(
+                    color: AppColors.TEXT_COLOR_WHITE,
+                    fontSize: 16,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: hintText,
+                    hintStyle: GoogleFonts.urbanist(
+                      color: Colors.grey.shade500,
+                      fontSize: 15,
+                    ),
+                    border: InputBorder.none,
+                    counterText: '',
+                  ),
+                  validator: validator,
+                ),
+              ),
+            ),
           ),
-        ),
-        const SizedBox(height: 8),
-        TextFormField(
-          controller: controller,
-          keyboardType: keyboardType,
-          obscureText: obscureText,
-          decoration: InputDecoration(
-            hintText: hintText,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(color: Colors.grey[300]!),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: Colors.blue),
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 14,
+
+          // Floating label
+          Positioned(
+            top: 0,
+            left: 18,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6),
+              color: AppColors.BACKGROUND_BLACK,
+              child: Text(
+                label,
+                style: GoogleFonts.urbanist(
+                  color: AppColors.TEXT_COLOR_WHITE,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
           ),
-          validator: validator,
-        ),
-      ],
-    );*/
+        ],
+      ),
+    );
   }
 }
