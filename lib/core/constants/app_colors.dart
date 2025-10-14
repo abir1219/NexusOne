@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 class AppColors{
@@ -14,4 +12,5 @@ class AppColors{
   static const BUTTON_COLOR_01 =  Color(0xFF121414);
   static const DOT_ACTIVE = Colors.white;
   static const DOT_INACTIVE = Colors.white38;
+  static const TRANSPARENT_COLOR = Colors.transparent;
 }

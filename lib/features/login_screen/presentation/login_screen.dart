@@ -122,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 8),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: CustomButton.buildCustomButton(() {}, "Login"),
+                        child: CustomButton.buildCustomButton(() => context.go(AppPages.HOME_SCREEN), "Login"),
                       ),
                     ],
                   ),
