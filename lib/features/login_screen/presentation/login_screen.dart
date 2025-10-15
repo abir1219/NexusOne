@@ -41,95 +41,93 @@ class _LoginScreenState extends State<LoginScreen> {
               horizontal: 16.0,
               vertical: 24.0,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              spacing: 8,
-              children: [
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    spacing: 8,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                spacing: 8,
+                children: [
+                  CustomHeader.buildHeader(
+                    context,
+                    'Welcome Back!',
+                    'Sign in to continue your experience. Access your account and manage everything easily.',
+                  ),
+                  CustomGoogleButton.buildCustomGoogleButton(
+                    context,
+                    'Login with Google',
+                    () {},
+                  ),
+                  CustomDivider.buildCustomDivider(),
+                  _buildFormFields(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CustomHeader.buildHeader(
-                        context,
-                        'Welcome Back!',
-                        'Sign in to continue your experience. Access your account and manage everything easily.',
-                      ),
-                      CustomGoogleButton.buildCustomGoogleButton(
-                        context,
-                        'Login with Google',
-                        () {},
-                      ),
-                      CustomDivider.buildCustomDivider(),
-                      _buildFormFields(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          InkWell(
-                            splashColor: Colors.transparent,
-                            // 🚫 disables ripple
-                            highlightColor: Colors.transparent,
-                            // 🚫 disables tap highlight
-                            hoverColor: Colors.transparent,
-                            onTap: () {
-                              setState(() => isChecked = !isChecked);
-                            },
-                            child: Row(
-                              children: [
-                                Checkbox(
-                                  value: isChecked,
-                                  onChanged: (value) =>
-                                      setState(() => isChecked = value!),
-                                  fillColor: WidgetStateProperty.all(
-                                    AppColors.UNSELECTION_COLOR,
-                                  ),
-                                  activeColor: AppColors.TEXT_COLOR_WHITE,
-                                  visualDensity: const VisualDensity(
-                                    horizontal: -4.0,
-                                    vertical: -4.0,
-                                  ),
-                                  materialTapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
+                      InkWell(
+                        splashColor: Colors.transparent,
+                        onTap: () => setState(() => isChecked = !isChecked),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Transform.scale(
+                              scale: 0.9,
+                              child: Checkbox(
+                                value: isChecked,
+                                onChanged: (value) => setState(() => isChecked = value!),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4),
                                 ),
-                                Text(
-                                  'Remember Me',
-                                  style: GoogleFonts.urbanist(
-                                    fontSize: 14,
+                                side: WidgetStateBorderSide.resolveWith(
+                                      (states) => BorderSide(
                                     color: AppColors.TEXT_COLOR_OFF_WHITE,
-                                    fontWeight: FontWeight.w400,
+                                    width: 0.8,
                                   ),
-                                  textAlign: TextAlign.center,
                                 ),
-                              ],
-                            ),
-                          ),
-                          InkWell(
-                            splashColor: Colors.transparent,
-                            onTap: () => context.go(AppPages.FORGOT_PASSWORD_SCREEN),
-                            child: Text(
-                              "Forgot Password?",
-                              style: GoogleFonts.urbanist(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.TEXT_COLOR_WHITE
+                                checkColor: AppColors.TEXT_COLOR_WHITE,
+                                activeColor: AppColors.BACKGROUND_BLACK,
+                                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                visualDensity: const VisualDensity(
+                                  horizontal: -4,
+                                  vertical: -4,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                            const SizedBox(width: 4),
+                            Text(
+                              'Remember Me',
+                              style: GoogleFonts.urbanist(
+                                fontSize: 14,
+                                color: AppColors.TEXT_COLOR_WHITE,
+                                fontWeight: FontWeight.w400,
+                                height: 1.6,
+                                // height: 1.4,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      const SizedBox(height: 8),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: CustomButton.buildCustomButton(() => context.go(AppPages.HOME_SCREEN), "Login"),
+                      InkWell(
+                        splashColor: Colors.transparent,
+                        onTap: () => context.go(AppPages.FORGOT_PASSWORD_SCREEN),
+                        child: Text(
+                          "Forgot Password?",
+                          style: GoogleFonts.urbanist(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.TEXT_COLOR_WHITE
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 8),
-                _buildSignUpLink(),
-              ],
+                  const SizedBox(height: 8),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: CustomButton.buildCustomButton(() => context.go(AppPages.HOME_SCREEN), "Login"),
+                  ),
+                  const SizedBox(height: 8),
+                  _buildSignUpLink(),
+                ],
+              ),
             ),
           ),
         ),
@@ -141,7 +139,8 @@ class _LoginScreenState extends State<LoginScreen> {
     return Column(
       spacing: 16,
       children: [
-        CustomTextField.buildTextField(
+        CustomTextField.buildTextFieldWithLabel(
+          context: context,
           controller: _emailController,
           hintText: 'enter your email address...',
           label: 'Email ID*',
@@ -156,7 +155,8 @@ class _LoginScreenState extends State<LoginScreen> {
             return null;
           },
         ),
-        CustomTextField.buildTextField(
+        CustomTextField.buildTextFieldWithLabel(
+          context: context,
           controller: _passwordController,
           hintText: 'create a strong password...',
           label: 'Password*',

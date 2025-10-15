@@ -44,7 +44,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   'Forgot Password',
                   'Don’t worry! It happens. Please enter the email associated with your account.',
                 ),
-                CustomTextField.buildTextField(
+                CustomTextField.buildTextFieldWithLabel(
+                  context: context,
                   controller: _emailController,
                   hintText: 'enter your email address...',
                   label: 'Email ID*',

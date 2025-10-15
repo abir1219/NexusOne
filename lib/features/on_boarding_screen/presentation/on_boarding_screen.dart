@@ -54,7 +54,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       value: const SystemUiOverlayStyle(
         statusBarColor: AppColors.BACKGROUND_BLACK,
         statusBarIconBrightness: Brightness.light, // Android → white icons
-        statusBarBrightness: Brightness.dark,      // iOS → white icons
+        statusBarBrightness: Brightness.dark, // iOS → white icons
       ),
       child: Scaffold(
         backgroundColor: AppColors.BACKGROUND_BLACK,
@@ -126,7 +126,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           duration: const Duration(milliseconds: 300),
                           margin: const EdgeInsets.symmetric(horizontal: 4),
                           height: 6,
-                          width: _currentPage == index ? 24 : 8,
+                          width: _currentPage == index ? 40 : 10,
                           decoration: BoxDecoration(
                             color: _currentPage == index
                                 ? AppColors.DOT_ACTIVE
@@ -151,7 +151,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 40),
                       child: CustomButton.buildCustomButton(
                         _nextPage,
-                        _currentPage == image.length - 1 ? "Get Started" : "Next",
+                        _currentPage == image.length - 1
+                            ? "Get Started"
+                            : "Next",
                       ),
                     ),
                   ],
@@ -177,9 +179,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         // const SizedBox(height: 40),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Image.asset("assets/images/$imgUrl", fit: BoxFit.contain),
+          child: Image.asset(
+            "assets/images/$imgUrl",
+            fit: BoxFit.contain,
+            // height: MediaQuery.sizeOf(context).height * 0.5,
+            // width: MediaQuery.sizeOf(context).width ,
+          ),
         ),
-        const SizedBox(height: 50),
+        const SizedBox(height: 15),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Text(
