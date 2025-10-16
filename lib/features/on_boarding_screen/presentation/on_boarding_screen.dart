@@ -64,7 +64,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             children: [
               // PageView
               Positioned(
-                top: MediaQuery.sizeOf(context).height * 0.02,
+                top: MediaQuery.sizeOf(context).height * 0.01,
                 left: 0,
                 right: 0,
                 bottom: 0,
@@ -111,7 +111,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 ),
               ),
               Positioned(
-                bottom: MediaQuery.sizeOf(context).height / 2.8, //100
+                bottom: MediaQuery.sizeOf(context).height / 3,//2.8, //100
                 left: 0,
                 right: 0,
                 child: Column(
@@ -126,7 +126,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           duration: const Duration(milliseconds: 300),
                           margin: const EdgeInsets.symmetric(horizontal: 4),
                           height: 6,
-                          width: _currentPage == index ? 40 : 10,
+                          width: _currentPage == index ? 50 : 25,
                           decoration: BoxDecoration(
                             color: _currentPage == index
                                 ? AppColors.DOT_ACTIVE
@@ -186,7 +186,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             // width: MediaQuery.sizeOf(context).width ,
           ),
         ),
-        const SizedBox(height: 15),
+        const SizedBox(height: 25),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Text(

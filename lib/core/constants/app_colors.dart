@@ -10,6 +10,8 @@ class AppColors{
   static const BUTTON_COLOR =  Color(0xFF232627);
   // static const BUTTON_COLOR_01 =  Color(0xFF3262780);
   static const BUTTON_COLOR_01 =  Color(0xFF121414);
+  static const ACTIVE_COLOR =  Color(0xFF22C55E);
+  static const UPCOMING_BLOCK_COLOR =  Color(0xFF202222);
   static const DOT_ACTIVE = Colors.white;
   static const DOT_INACTIVE = Colors.white38;
   static const TRANSPARENT_COLOR = Colors.transparent;

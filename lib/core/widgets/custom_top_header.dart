@@ -7,8 +7,10 @@ import 'package:nexus_one/core/constants/app_colors.dart';
 class CustomTopHeader {
   static Widget buildTopHeader({
     required String profileName,
+    required BuildContext context,
     required bool isOnline,
     required bool isNewNotification,
+    required VoidCallback? onProfileTap,
   }) {
     return SizedBox(
       child: Row(
@@ -16,36 +18,45 @@ class CustomTopHeader {
         children: [
           Row(
             children: [
-              Stack(
-                children: [
-                  CircleAvatar(child: Image.asset("assets/images/avatar.png")),
-                  Visibility(
-                    visible: isOnline,
-                    child: Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        height: 10,
-                        width: 10,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: AppColors.TEXT_COLOR_WHITE,
-                            width: 1,
+              InkWell(
+                splashColor: AppColors.TRANSPARENT_COLOR,
+                onTap: onProfileTap,
+                child: Stack(
+                  children: [
+                    CircleAvatar(
+                      child: Image.asset("assets/images/avatar.png"),
+                    ),
+                    Visibility(
+                      visible: isOnline,
+                      child: Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Container(
+                          height: 10,
+                          width: 10,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: AppColors.TEXT_COLOR_WHITE,
+                              width: 1,
+                            ),
+                            color: AppColors.ACTIVE_COLOR,
                           ),
-                          color: Colors.red,
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               Gap(10),
-              Text(profileName,style: GoogleFonts.urbanist(
-                color: AppColors.TEXT_COLOR_WHITE,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),),
+              Text(
+                profileName,
+                style: GoogleFonts.urbanist(
+                  color: AppColors.TEXT_COLOR_WHITE,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ],
           ),
           Row(
@@ -59,22 +70,22 @@ class CustomTopHeader {
                       top: 0,
                       right: 0,
                       child: Container(
-                        height: 10,
-                        width: 10,
+                        height: 8,
+                        width: 8,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
                             color: AppColors.TEXT_COLOR_WHITE,
                             width: 1,
                           ),
-                          color: Colors.red,
+                          color: AppColors.ACTIVE_COLOR,
                         ),
                       ),
                     ),
                   ),
                 ],
               ),
-              Gap(10),
+              Gap(MediaQuery.sizeOf(context).width * 0.04),
               SvgPicture.asset("assets/images/search.svg"),
             ],
           ),
