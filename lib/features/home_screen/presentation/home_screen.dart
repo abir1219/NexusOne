@@ -8,6 +8,8 @@ import 'package:nexus_one/core/widgets/custom_drawer_menu.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/widgets/custom_banner.dart';
+import '../../../core/widgets/custom_schedule_job_details_card.dart';
+import '../../../core/widgets/custom_today_job_details_card.dart';
 import '../../../core/widgets/custom_top_header.dart';
 import '../../../core/widgets/custom_upcoming_job_card.dart';
 
@@ -86,18 +88,125 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemCount: 3,
                       itemBuilder: (context, index) =>
                           // _buildUpcomingContainer(index, height, width),
-                      UpcomingJobCard(title: 'Leak detection and repair', dateTime: DateFormat(
-                        "MMMM d, yyyy  •  h:mm a",
-                      ).format(DateTime.now()), address: '123 Main Street, Springfield, IL 62701, USA', width: width,),
+                          UpcomingJobCard(
+                            title: 'Leak detection and repair',
+                            dateTime: DateFormat(
+                              "MMMM d, yyyy  •  h:mm a",
+                            ).format(DateTime.now()),
+                            address:
+                                '123 Main Street, Springfield, IL 62701, USA',
+                            width: width,
+                          ),
                     ),
                   ),
                   CustomBanner(),
+                  CustomJobDetailsCard(),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildContainer(
+                          imageUrl: 'assets/images/invoice.svg',
+                          title: 'Invoices',
+                          subtitle: 'View and manage all your invoices',
+                          qtyStatus: '2 Unpaid',
+                          priceStatus: "(\$450.00)",
+                        ),
+                      ),
+                      Expanded(
+                        child: _buildContainer(
+                          imageUrl: 'assets/images/inventory.svg',
+                          title: 'Inventory',
+                          subtitle:
+                              'Monitor your product quantities and status',
+                          qtyStatus: '4 Items',
+                          priceStatus: "Below Stock",
+                        ),
+                      ),
+                    ],
+                  ),
+                  CustomScheduleJobDetailsCard(),
                 ],
               ),
             ),
           ),
         ),
         bottomNavigationBar: CustomButtonNav(pageIndex: 0),
+      ),
+    );
+  }
+
+  Widget _buildContainer({
+    required String imageUrl,
+    required String title,
+    required String subtitle,
+    required String qtyStatus,
+    required String priceStatus,
+  }) {
+    return Container(
+      height: MediaQuery.sizeOf(context).height * .2,
+      //170,
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      margin: EdgeInsets.symmetric(horizontal: 4),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: AppColors.UPCOMING_BLOCK_COLOR,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(child: SvgPicture.asset(imageUrl)),
+              Column(
+                children: [
+                  Text(
+                    qtyStatus,
+                    style: GoogleFonts.urbanist(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.TEXT_COLOR_OFF_WHITE,
+                    ),
+                  ),
+                  Text(
+                    priceStatus,
+                    style: GoogleFonts.urbanist(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.TEXT_COLOR_OFF_WHITE,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Expanded(
+            child: Column(
+              spacing: 8,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: GoogleFonts.urbanist(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.TEXT_COLOR_WHITE,
+                  ),
+                ),
+                Text(
+                  subtitle,
+                  style: GoogleFonts.urbanist(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.TEXT_COLOR_OFF_WHITE,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
