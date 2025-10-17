@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 // 🔹 Horizontal Job Cards
                 SizedBox(
-                  height: height * 0.16,
+                  height: height * 0.17,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: 3,

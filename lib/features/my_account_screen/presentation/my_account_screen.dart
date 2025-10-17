@@ -18,11 +18,9 @@ class MyAccountScreen extends StatefulWidget {
 class _MyAccountScreenState extends State<MyAccountScreen> {
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _tradeTypeController = TextEditingController();
   final TextEditingController _mobileController = TextEditingController();
 
   String? _selectedTradeType;
-  String? _selectedAccountType;
   bool isChecked = false;
 
   final List<String> _tradeTypes = [
@@ -50,7 +48,10 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
         bottomNavigationBar: const CustomButtonNav(pageIndex: 4),
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 8.0,
+            ),
             child: Column(
               spacing: height * 0.02,
               mainAxisAlignment: MainAxisAlignment.start,

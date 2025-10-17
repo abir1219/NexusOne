@@ -18,145 +18,137 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
-  List<String> image = [
+  final List<String> images = [
     "on_boarding_one.png",
     "on_boarding_two.png",
     "on_boarding_three.png",
   ];
 
-  List<String> title = [
+  final List<String> titles = [
     "Deliver Quality Work with Confidence",
     "Save Hundreds of Hours with our Core Features",
     "Get the Job Done Right, Every Time",
   ];
 
-  List<String> subtitle = [
+  final List<String> subtitles = [
     "Streamline your projects and grow your contracting business.",
     "Efficiency made easy with tools designed for you.",
     "Your satisfaction is our guarantee.",
   ];
 
   void _nextPage() {
-    if (_currentPage < image.length - 1) {
+    if (_currentPage < images.length - 1) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 400),
         curve: Curves.easeInOut,
       );
     } else {
-      debugPrint("✅ Onboarding Completed — Navigate to Home/Login");
       context.go(AppPages.REGISTRATION_SCREEN);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.sizeOf(context).height;
+    // final width = MediaQuery.sizeOf(context).width;
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
-        statusBarColor: AppColors.BACKGROUND_BLACK,
-        statusBarIconBrightness: Brightness.light, // Android → white icons
-        statusBarBrightness: Brightness.dark, // iOS → white icons
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
       ),
       child: Scaffold(
         backgroundColor: AppColors.BACKGROUND_BLACK,
         body: SafeArea(
           child: Stack(
-            // alignment: Alignment.center,
             children: [
-              // PageView
-              Positioned(
-                top: MediaQuery.sizeOf(context).height * 0.01,
-                left: 0,
-                right: 0,
-                bottom: 0,
+              /// Fullscreen PageView
+              Positioned.fill(
+                top: height * 0.06,//50,
                 child: PageView.builder(
                   controller: _pageController,
-                  itemCount: image.length,
+                  itemCount: images.length,
                   onPageChanged: (index) {
                     setState(() => _currentPage = index);
                   },
                   itemBuilder: (context, index) {
-                    return onBoardingSlide(
-                      context: context,
-                      imgUrl: image[index],
-                      title: title[index],
-                      subtitle: subtitle[index],
+                    return _buildOnBoardingSlide(
+                      images[index],
+                      titles[index],
+                      subtitles[index],
+                      height,
                     );
                   },
                 ),
               ),
+
+              /// Skip button
               Positioned(
-                top: 0,
-                right: 20,
+                top: 10,
+                right: 16,
                 child: TextButton(
-                  onPressed: () {
-                    debugPrint("⏩ Skipped");
-                    // TODO: Skip to main screen
-                    context.go(AppPages.REGISTRATION_SCREEN);
-                  },
-                  child: const Row(
+                  onPressed: () => context.go(AppPages.REGISTRATION_SCREEN),
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         "Skip",
-                        style: TextStyle(color: Colors.white70, fontSize: 16),
+                        style: TextStyle(
+                          color: AppColors.TEXT_COLOR_OFF_WHITE,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                      SizedBox(width: 4),
+                      SizedBox(width: 6),
                       Icon(
                         Icons.arrow_forward_ios_rounded,
+                        color: AppColors.TEXT_COLOR_OFF_WHITE,
                         size: 14,
-                        color: Colors.white70,
                       ),
                     ],
                   ),
                 ),
               ),
+
+              /// Dots indicator
               Positioned(
-                bottom: MediaQuery.sizeOf(context).height / 3,//2.8, //100
+                bottom: height * 0.32,//0.38,
                 left: 0,
                 right: 0,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Dots Indicator
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                        image.length,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                    images.length,
                         (index) => AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          margin: const EdgeInsets.symmetric(horizontal: 4),
-                          height: 6,
-                          width: _currentPage == index ? 50 : 25,
-                          decoration: BoxDecoration(
-                            color: _currentPage == index
-                                ? AppColors.DOT_ACTIVE
-                                : AppColors.DOT_INACTIVE,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
+                      duration: const Duration(milliseconds: 300),
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      height: 4,
+                      width: _currentPage == index ? 50 : 25,
+                      decoration: BoxDecoration(
+                        color: _currentPage == index
+                            ? AppColors.DOT_ACTIVE
+                            : AppColors.DOT_INACTIVE,
+                        borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ),
+
+              /// Next Button
               Positioned(
-                bottom: MediaQuery.sizeOf(context).height / 20,
+                bottom: height * 0.05,
                 left: 0,
                 right: 0,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Next Button
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                      child: CustomButton.buildCustomButton(
-                        _nextPage,
-                        _currentPage == image.length - 1
-                            ? "Get Started"
-                            : "Next",
-                      ),
-                    ),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  child: CustomButton.buildCustomButton(
+                    _nextPage,
+                    _currentPage == images.length - 1
+                        ? "Get Started"
+                        : "Next",
+                  ),
                 ),
               ),
             ],
@@ -166,55 +158,71 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     );
   }
 
-  Widget onBoardingSlide({
-    required BuildContext context,
-    required String imgUrl,
-    required String title,
-    required String subtitle,
-  }) {
+  Widget _buildOnBoardingSlide(
+      String imgUrl,
+      String title,
+      String subtitle,
+      double height,
+      ) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      spacing: 8,
       children: [
-        // const SizedBox(height: 40),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Image.asset(
-            "assets/images/$imgUrl",
-            fit: BoxFit.contain,
-            // height: MediaQuery.sizeOf(context).height * 0.5,
-            // width: MediaQuery.sizeOf(context).width ,
+        /// Top Image with gradient overlay
+        SizedBox(
+          height: height * 0.6,
+          width: double.infinity,
+          child: Stack(
+            //fit: StackFit.expand,
+            children: [
+              Image.asset(
+                "assets/images/$imgUrl",
+                fit: BoxFit.cover,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                    AppColors.TRANSPARENT_COLOR,
+                      AppColors.BACKGROUND_BLACK.withAlpha(85),
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-        const SizedBox(height: 25),
+
+        //const SizedBox(height: 20),
+
+        /// Text Section
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Text(
-            title,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.urbanist(
-              fontSize: 28,
-              fontWeight: FontWeight.w600,
-              color: AppColors.TEXT_COLOR_WHITE,
-              // height: 1.3,
-            ),
+          child: Column(
+            children: [
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.urbanist(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.TEXT_COLOR_WHITE,
+                  height: 1.3,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                subtitle,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.urbanist(
+                  fontSize: 16,
+                  color: AppColors.TEXT_COLOR_OFF_WHITE,
+                  height: 1.4,
+                ),
+              ),
+            ],
           ),
         ),
-        // const SizedBox(height: 12),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Text(
-            subtitle,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.urbanist(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: AppColors.TEXT_COLOR_OFF_WHITE,
-              // height: 1.4,
-            ),
-          ),
-        ),
-        const SizedBox(height: 100),
       ],
     );
   }

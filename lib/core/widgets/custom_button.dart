@@ -16,6 +16,9 @@ class CustomButton {
         //AppColors.BUTTON_COLOR,//Colors.white.withAlpha(25),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         minimumSize: const Size.fromHeight(56),
+        splashFactory: NoSplash.splashFactory,
+        shadowColor: Colors.transparent,
+        elevation: 0,
       ),
       child: Text(
         btnTitle,
