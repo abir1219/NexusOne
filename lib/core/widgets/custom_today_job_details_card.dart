@@ -10,7 +10,7 @@ class CustomJobDetailsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 170,
+      height:  MediaQuery.sizeOf(context).height * 0.18,//170,
       decoration: BoxDecoration(
         color: AppColors.UPCOMING_BLOCK_COLOR,
         borderRadius: BorderRadius.circular(20),

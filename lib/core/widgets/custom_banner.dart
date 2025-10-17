@@ -8,7 +8,7 @@ class CustomBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 170,
+      height: MediaQuery.sizeOf(context).height * 0.2,//170,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),

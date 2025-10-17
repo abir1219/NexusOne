@@ -9,4 +9,5 @@ class AppPages{
   static const String RESET_PASSWORD_SUCCESS_SCREEN = "/resetPasswordSuccess";
   static const String LOGIN_SCREEN = "/login";
   static const String HOME_SCREEN = "/home";
+  static const String MY_ACCOUNT_SCREEN = "/account";
 }

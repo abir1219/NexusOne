@@ -22,7 +22,7 @@ class UpcomingJobCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width * 0.65,
-      margin: const EdgeInsets.symmetric(horizontal: 8),
+      // margin: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
         color: AppColors.UPCOMING_BLOCK_COLOR,
         borderRadius: BorderRadius.circular(20),

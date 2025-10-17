@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../constants/app_colors.dart';
 
-
 class CustomDrawerMenu {
-  static Widget buildCustomDrawerMenu(BuildContext context,
-      VoidCallback? onDrawerClose,) {
+  static Widget buildCustomDrawerMenu(
+    BuildContext context,
+    VoidCallback? onDrawerClose,
+  ) {
     return Stack(
       children: [
         Drawer(
@@ -24,68 +25,92 @@ class CustomDrawerMenu {
                     child: IconButton(
                       splashColor: AppColors.TRANSPARENT_COLOR,
                       onPressed: onDrawerClose,
-                      icon: Icon(Icons.close, color: AppColors.TEXT_COLOR_OFF_WHITE,size: 18,),
+                      icon: Icon(
+                        Icons.close,
+                        color: AppColors.TEXT_COLOR_OFF_WHITE,
+                        size: 18,
+                      ),
                     ),
                   ),
                   // --- Profile Section ---
-                  Row(
-                    children: [
-                      const CircleAvatar(
-                        radius: 28,
-                        backgroundImage: AssetImage('assets/images/avatar.png'),
-                      ),
-                      const SizedBox(width: 12),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            "Glenn Cross",
-                            style: TextStyle(
-                              color: AppColors.TEXT_COLOR_WHITE,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                  const CircleAvatar(
+                    radius: 28,
+                    backgroundImage: AssetImage('assets/images/avatar.png'),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    "Glenn Cross",
+                    style: GoogleFonts.urbanist(
+                      color: AppColors.TEXT_COLOR_WHITE,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    "Contractor",
+                    style: GoogleFonts.urbanist(
+                      color: AppColors.TEXT_COLOR_OFF_WHITE,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+
+                  // --- Drawer Menu Items ---
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: Column(
+                        spacing: 10,
+                        children: [
+                          _buildDrawerItem('assets/images/account.png', "Account"),
+                          _buildDrawerItem('assets/images/jobs.png', "Jobs"),
+                          _buildDrawerItem(
+                            'assets/images/inventory.png',
+                            "Inventory",
                           ),
-                          SizedBox(height: 4),
-                          Text(
-                            "Contractor",
-                            style: TextStyle(
-                              color: AppColors.TEXT_COLOR_OFF_WHITE,
-                              fontSize: 14,
-                            ),
+                          _buildDrawerItem('assets/images/invoice.png', "Invoice"),
+                          _buildDrawerItem(
+                            'assets/images/transaction.png',
+                            "Transaction",
+                          ),
+                          _buildDrawerItem(
+                            'assets/images/stock.png',
+                            "Stock Forecasting",
+                          ),
+                          _buildDrawerItem(
+                            'assets/images/tax_expense.png',
+                            "Tax Expense",
                           ),
                         ],
                       ),
-                    ],
+                    ),
                   ),
 
-                  const SizedBox(height: 30),
-
-                  // --- Drawer Menu Items ---
-                  _buildDrawerItem(Icons.home_outlined, "Home"),
-                  _buildDrawerItem(Icons.work_outline, "Jobs"),
-                  _buildDrawerItem(Icons.inventory_2_outlined, "Inventory"),
-                  _buildDrawerItem(Icons.receipt_long_outlined, "Invoice"),
-                  _buildDrawerItem(Icons.person_outline, "Account"),
-                  _buildDrawerItem(Icons.attach_money_outlined, "Transaction"),
-                  _buildDrawerItem(Icons.notifications_none_outlined, "Notification"),
-
-                  const Spacer(),
+                  //const Spacer(),
                   // Gap(MediaQuery.sizeOf(context).height * 0.1),
 
                   // --- Bottom Links ---
-                  _buildBottomLink("About"),
-                  _buildBottomLink("Settings"),
-                  _buildBottomLink("Terms & Policy"),
-                  _buildBottomLink("Disclaimer"),
-                  _buildBottomLink("Logout"),
+                  Column(
+                    spacing: 4,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      _buildBottomLink("About"),
+                      _buildBottomLink("Settings"),
+                      _buildBottomLink("Terms & Policy"),
+                      _buildBottomLink("Disclaimer"),
+                      _buildBottomLink("Logout"),
+                    ],
+                  ),
                 ],
               ),
             ),
           ),
         ),
         Positioned(
-          bottom: MediaQuery.sizeOf(context).height * .1,
+          bottom: MediaQuery.sizeOf(context).height * .05,
           right: MediaQuery.sizeOf(context).width * .1,
           child: GestureDetector(
             onTap: () {
@@ -109,19 +134,20 @@ class CustomDrawerMenu {
     );
   }
 
-  static Widget _buildDrawerItem(IconData icon, String title) {
+  static Widget _buildDrawerItem(String imageUrl, String title) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
-          Icon(icon, color: AppColors.TEXT_COLOR_WHITE, size: 22),
+          Image.asset(imageUrl),
+          // Icon(icon, color: AppColors.TEXT_COLOR_WHITE, size: 22),
           const SizedBox(width: 16),
           Text(
             title,
-            style: const TextStyle(
+            style: GoogleFonts.urbanist(
               color: AppColors.TEXT_COLOR_WHITE,
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ],
@@ -134,9 +160,10 @@ class CustomDrawerMenu {
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Text(
         title,
-        style: const TextStyle(
+        style: GoogleFonts.urbanist(
           color: AppColors.TEXT_COLOR_OFF_WHITE,
-          fontSize: 14,
+          fontSize: 18,
+          fontWeight: FontWeight.w500
         ),
       ),
     );

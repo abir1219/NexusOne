@@ -32,7 +32,7 @@ class _CustomButtonNavState extends State<CustomButtonNav> {
               color: widget.pageIndex == 0
                   ? AppColors.TEXT_COLOR_WHITE
                   : AppColors.TEXT_COLOR_OFF_WHITE,
-              function: () {},
+              function: () => context.go(AppPages.HOME_SCREEN),
               imageUrl: "assets/images/home.png",
             ),
             CustomIconButton.buildCustomIconButton(
@@ -60,7 +60,7 @@ class _CustomButtonNavState extends State<CustomButtonNav> {
               color: widget.pageIndex == 4
                   ? AppColors.TEXT_COLOR_WHITE
                   : AppColors.TEXT_COLOR_OFF_WHITE,
-              function: () {},
+              function: ()  => context.go(AppPages.MY_ACCOUNT_SCREEN),
               imageUrl: "assets/images/account.png",
             ),
           ],
