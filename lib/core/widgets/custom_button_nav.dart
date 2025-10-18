@@ -39,7 +39,7 @@ class _CustomButtonNavState extends State<CustomButtonNav> {
               color: widget.pageIndex == 1
                   ? AppColors.TEXT_COLOR_WHITE
                   : AppColors.TEXT_COLOR_OFF_WHITE,
-              function: () {},
+              function: ()  => context.go(AppPages.JOBS_SCREEN),
               imageUrl: "assets/images/jobs.png",
             ),
             CustomIconButton.buildCustomIconButton(

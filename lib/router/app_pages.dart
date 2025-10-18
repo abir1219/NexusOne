@@ -10,4 +10,5 @@ class AppPages{
   static const String LOGIN_SCREEN = "/login";
   static const String HOME_SCREEN = "/home";
   static const String MY_ACCOUNT_SCREEN = "/account";
+  static const String JOBS_SCREEN = "/jobs";
 }

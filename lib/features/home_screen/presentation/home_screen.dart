@@ -92,10 +92,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: height * 0.17,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: 3,
+                    itemCount: 2,
                     // padding: const EdgeInsets.only(right: 4),
                     itemBuilder: (context, index) => Padding(
-                      padding: EdgeInsets.only(left: index == 0 ? 0 : 4),
+                      padding: EdgeInsets.only(left: index == 0 ? 0 : 8),
                       child: UpcomingJobCard(
                         title: 'Leak detection and repair',
                         dateTime: DateFormat(

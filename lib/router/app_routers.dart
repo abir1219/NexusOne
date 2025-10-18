@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nexus_one/features/forgot_password_screen/presentation/forgot_password_screen.dart';
 import 'package:nexus_one/features/home_screen/presentation/home_screen.dart';
+import 'package:nexus_one/features/jobs_screen/preesntation/jobs_screen.dart';
 import 'package:nexus_one/features/login_screen/presentation/login_screen.dart';
 import 'package:nexus_one/features/my_account_screen/presentation/my_account_screen.dart';
 import 'package:nexus_one/features/reset_password_screen/presentation/reset_password_screen.dart';
@@ -30,6 +31,7 @@ class AppRouters {
         _buildRoute(AppPages.RESET_PASSWORD_SUCCESS_SCREEN, const ResetPasswordSuccessScreen()),
         _buildRoute(AppPages.HOME_SCREEN, const HomeScreen()),
         _buildRoute(AppPages.MY_ACCOUNT_SCREEN, const MyAccountScreen()),
+        _buildRoute(AppPages.JOBS_SCREEN, const JobsScreen()),
       ],
     );
   }

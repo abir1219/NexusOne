@@ -15,4 +15,7 @@ class AppColors{
   static const DOT_ACTIVE = Colors.white;
   static const DOT_INACTIVE = Colors.white38;
   static const TRANSPARENT_COLOR = Colors.transparent;
+  static const AMBER_COLOR = Color(0xFFFF9800);
+  static const BLUE_COLOR = Color(0xFF2196F3);
+  static const GREEN_COLOR = Color(0xFF4CAF50);
 }
